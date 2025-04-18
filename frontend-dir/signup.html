@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Form</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(29, 38, 59, 0.3), rgba(29, 38, 59, 0.3)), url('img/signup.png') no-repeat center/cover;
+            filter: blur(3px);
+            z-index: -1;
+        }
+
+        .container {
+            display: flex;
+            width: 900px;
+            height: 600px;
+            background-color: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-box {
+            width: 50%;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .brand {
+            color: #007b7f;
+            font-weight: bold;
+            font-style: italic;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: bolder;
+            margin-top: -10px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input {
+            padding: 12px;
+            margin-bottom: 12px;
+            border: none;
+            background: #fde7c3;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 12px;
+            background-color: #007b7f;
+            color: white;
+            font-size: 16px;
+            border: none;
+            font-weight: bolder;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #005f60;
+        }
+
+        p {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        p a {
+            text-decoration: none;
+            font-weight: bold;
+            color: #007b7f;
+        }
+
+        .image-box {
+            width: 50%;
+            background: url('img/signup.png') no-repeat center/cover;
+            border-radius: 15px 15px 15px 15px;
+        }
+
+        .font-weight-lighter {
+            font-weight: lighter !important;
+        }
+
+        .font-weight-bolder {
+            font-weight: bolder !important;
+        }
+
+        .text-primary {
+            color: #f78d00 !important;
+        }
+
+        .text-dark {
+            color: #184a57 !important;
+        }
+
+        a.text-dark:hover,
+        a.text-dark:focus {
+            color: black !important;
+        }
+
+        h1 {
+            text-align: center;
+            font-weight: bolder;
+            padding-bottom: 20px;
+        }
+
+        .second {
+            margin-top: -20px;
+        }
+    </style>
+</head>
+<script>
+    const token = localStorage.getItem("jwt_token");
+    if (token) {
+        alert('You already log in!')        
+        window.location.href = "index.html"; 
+    }
+</script>
+<body>
+    <div class="container">
+        <div class="form-box" >
+            <a href="index.html" style="text-decoration: none;">
+                <h1 class="m-0 text-primary">Q<span class="text-dark">NITY</span></h1>
+            </a>
+            <h2>Let AI Guide You to </h2>
+            <h2 class="second">Unforgettable Destinations!</h2>
+            <form id="sigupForm">
+                <input type="text" id="fullname" placeholder="Full Name" required>
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <input type="text" id="phone_number" placeholder="Phone number" required>
+                <input type="text" id="address" placeholder="Address" required>
+                <button type="submit" class="font-weight-bolder">Sign Up</button>
+            </form>
+            <p>Already have an account?? <a href="login.html">Login</a></p>
+        </div>
+        <div class="image-box"></div>
+    </div>
+
+
+    <script>
+        document.getElementById('sigupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('fullname').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const phone = document.getElementById('phone_number').value.trim();
+            const address = document.getElementById('address').value.trim();
+            
+            if (password.length < 6) {
+                alert('Password too short!');
+                return;
+            }
+            const regex = /^0[0-9]{9,10}$/;
+            if (!regex.test(phone)) {
+                alert('Phone number is not valid!');
+                return; 
+            }
+            try {
+                const res = await fetch('http://localhost:8080/QNITY_BE/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        fullName,
+                        email,
+                        password,
+                        phone, 
+                        address                    
+                    })
+                });
+
+                if (!res.ok) {
+                    alert('Sign up failed');
+                    return;
+                }
+                const data = await res.json();
+                console.log("Server response:", data);                      
+                if (data.message == 'Sign up failed') {
+                    alert('Sign up Failed');
+                    return;
+                }
+                alert('Sign up success!');
+                window.location.href = "/index.html";
+
+
+
+            } catch (err) {
+                alert('Wrong validate or server error');
+                console.error(err);
+            }
+        });
+    </script>
+</body>
+
+</html>

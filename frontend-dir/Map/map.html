@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GG MAP</title>
+
+  <!-- Leaflet CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet/dist/leaflet.css"
+  />
+
+  <!-- Font + Icon -->
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link 
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    rel="stylesheet"
+  />
+
+  <!-- Your CSS -->
+  <link rel="stylesheet" href="map.css"/>
+</head>
+<body>
+  <div class="itinerary-map-container">
+    <aside class="itinerary-panel" id="itinerary-panel">
+      <!-- JS render vào đây -->
+    </aside>
+    <div id="map"></div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <!-- Your app logic -->
+  <script src="app.js"></script>
+</body>
+</html>

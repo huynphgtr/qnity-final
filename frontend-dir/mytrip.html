@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Travel Itinerary to Quy Nhon</title>
+
+  <!-- Google Web Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+  <!-- AOS CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <header style="text-align:center; padding: 24px 0;">
+    <h1 style="margin:0;">Your Travel Itinerary To Quy Nhon</h1>
+  </header>
+
+
+
+  <main>
+    <div id="itinerary-container"></div>
+  
+    <div class="btn-wrapper">
+      <button class="btn-itinerarys" onclick="location.href='review.html'">
+        FEEDBACK
+      </button>
+      <button class="btn-itinerarys" onclick="location.href='Map/map.html'">
+        VIEW MAP
+      </button>
+    </div>
+  </main>
+  <footer class="site-footer" id="footer">
+    <div class="container footer-container">
+      <div class="footer-info text-center mb-4">
+        <a href="index.html" style="text-decoration:none;">
+          <h2 class="m-0 text-primary">Q<span class="text-light">NITY</span></h2>
+        </a>
+        <p>
+          Website helps tourists explore Quy Nhơn & personalize travel schedules.
+          Solves common problem: <br> travelers have difficulty finding information
+          and planning travel itineraries that fit their interests and budget.
+        </p>
+      </div>
+      <div class="row">
+        <div class="col-12 text-center">
+          <p class="m-0 text-white-50">
+            Copyright ©
+            <a href="#" class="text-white-50" style="text-decoration:none;">
+              TUTRU
+            </a>. All Rights Reserved.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const saved = localStorage.getItem("AI response");
+      if (!saved) return;
+      const data = JSON.parse(saved);
+      const container = document.getElementById("itinerary-container");
+
+      // Xoá sạch container (nếu có)
+      container.innerHTML = "";
+
+      Object.keys(data).forEach((dateStr, idx) => {
+        const acts = data[dateStr];
+        // Tính tổng chi phí
+        const totalSum = acts
+          .reduce((sum, a) => sum + Number(a["estimated cost"]), 0);
+
+        const total = totalSum.toLocaleString();
+        const [year, month, day] = dateStr.split('-');
+        const formattedDate = `${day}/${month}/${year}`;
+        // Tạo block HTML cho cả ngày
+        const html = `
+          <section class="day-section" data-aos="fade-up">
+            <h2 class="day-title">Day  ${idx + 1}: ${formattedDate}</h2>
+            <ul class="schedule">
+              ${acts.map(a => `
+                <li>
+                  <span class="time">⏰ ${a.time}</span>
+                  <span class="description">📍 ${a.location} – ${a["activity description"]}</span>
+                  <span class="cost">₫${a["estimated cost"].toLocaleString()}</span>
+                </li>
+              `).join("")}
+            </ul>
+            <p class="total">
+              Total estimated cost for the day:
+              <span class="price">₫${total}</span>
+            </p>
+          </section>
+        `;
+
+        container.insertAdjacentHTML("beforeend", html);
+      });
+
+      // Khởi chạy AOS nếu có
+      if (window.AOS) AOS.init();
+    });
+  </script>
+
+  <!-- Chat bubble -->
+  <div id="chat-bubble" onclick="toggleChat()">
+    <i class="fas fa-comment-dots"></i>
+  </div>
+
+  <!-- Chat box -->
+  <div id="chat-box">
+    <div class="header">
+      <img src="img/Quynhon-1.jpg" alt="avatar" class="avatar">
+      <div class="info">
+        AI CHAT BOT<br>
+        <span class="status">online</span>
+      </div>
+    </div>
+    <div class="messages">
+      <div class="bot-msg">
+        Hello, let me assist you with any question you have.
+      </div>
+    </div>
+    <div class="input">
+      <input type="text" placeholder="Write your message and press Enter"
+        onkeydown="if(event.key==='Enter') sendMessage()">
+      <button onclick="sendMessage()">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function toggleChat() {
+      document.getElementById('chat-box').classList.toggle('active');
+    }
+
+    async function sendMessage() {
+      const inp = document.querySelector('#chat-box .input input');
+      const text = inp.value.trim();
+      if (!text) return;
+
+      const msgs = document.querySelector('#chat-box .messages');
+
+      const userDiv = document.createElement('div');
+      userDiv.className = 'user-msg';
+      userDiv.textContent = text;
+      msgs.appendChild(userDiv);
+      msgs.scrollTop = msgs.scrollHeight;
+      inp.value = '';
+
+      // Gửi message đến Servlet
+      try {
+        const res = await fetch('http://localhost:8080/QNITY_BE/chat-servlet', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text })
+        });
+        const data = await res.json();
+
+        const botDiv = document.createElement('div');
+        botDiv.className = 'bot-msg';
+        botDiv.textContent = data.reply;
+        msgs.appendChild(botDiv);
+        msgs.scrollTop = msgs.scrollHeight;
+      } catch (err) {
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'bot-msg';
+        errorDiv.textContent = "Lỗi gửi tin nhắn!";
+        msgs.appendChild(errorDiv);
+        msgs.scrollTop = msgs.scrollHeight;
+      }
+    }
+  
+  </script>
+
+
+
+  <!-- Thư viện JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js">
+  </script>
+  <script src="lib/easing/easing.min.js"></script>
+  <script src="lib/owlcarousel/owl.carousel.min.js">
+  </script>
+  <script src="lib/tempusdominus/js/moment.min.js"></script>
+  <script src="lib/tempusdominus/js/moment-timezone.min.js">
+  </script>
+  <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js">
+  </script>
+  <script src="mail/jqBootstrapValidation.min.js"></script>
+  <script src="mail/contact.js"></script>
+  <script src="js/main.js"></script>
+  <script src="https://unpkg.com/aos@next/dist/aos.js">
+  </script>
+</body>
+
+</html>

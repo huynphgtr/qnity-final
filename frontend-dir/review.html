@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Feedback</title>
+    <!-- Liên kết đến file CSS riêng -->
+    <link rel="stylesheet" href="css/review.css">
+
+    <!--(hiển thị icon sao) -->
+    <link 
+    
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" 
+        rel="stylesheet"
+    >
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+</head>
+<body>
+    <div class="review-container" data-aos="fade-up">
+        <h1 class="m-0 text-primary">Q<span class="text-dark">NITY</span></h1>
+        <h2>Feedback</h2>
+        <form action="#" method="post">
+
+
+
+            <!-- Đánh giá (5 ngôi sao) -->
+            <label for="rating">Feedback me:</label>
+            <div class="star-rating">
+                <!-- Radio 5 sao, để người dùng chọn sao -->
+                <input type="radio" id="star5" name="rating" value="5">
+                <label for="star5" class="fas fa-star"></label>
+
+                <input type="radio" id="star4" name="rating" value="4">
+                <label for="star4" class="fas fa-star"></label>
+
+                <input type="radio" id="star3" name="rating" value="3">
+                <label for="star3" class="fas fa-star"></label>
+
+                <input type="radio" id="star2" name="rating" value="2">
+                <label for="star2" class="fas fa-star"></label>
+
+                <input type="radio" id="star1" name="rating" value="1">
+                <label for="star1" class="fas fa-star"></label>
+            </div>
+
+            <!-- Nội dung đánh giá -->
+            <label for="message">Would you like to add a comment</label>
+            <textarea 
+                id="message" 
+                name="message" 
+                rows="3" 
+                placeholder="Write here..."
+            ></textarea>
+
+            <!-- Nút submit -->
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+     <!-- Script AOS -->
+     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+     <script>
+         AOS.init();
+     </script>
+     <img id="thankImage" src="img/thank_you.jpg" style="display:none; /*…*/" />
+
+     <script>
+     document.addEventListener('DOMContentLoaded', function() {
+       const form = document.querySelector('form');
+       const thankImage = document.getElementById('thankImage');
+     
+       form.addEventListener('submit', function(e) {
+         e.preventDefault();
+         alert('Cảm ơn bạn đã đóng góp ý kiến!');
+         thankImage.style.display = 'block';
+     
+         // Sau 2s mới chuyển
+         setTimeout(function() {
+           window.location.href = 'mytrip.html'; 
+         }, 1000);
+       });
+     });
+     </script>
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(rgba(29, 38, 59, 0.2), rgba(29, 38, 59, 0.2)), url("../img/Intro-Binh-Dinh-Vietnam.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+            filter: blur(3px);
+            z-index: -1;
+        }
+
+        form {
+            width: 93%;
+            padding-right: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            display: flex;
+            background: white;
+            width: 900px;
+            height: 500px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-box {
+            width: 50%;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #8B5E3C;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+
+            margin-bottom: 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            background: #FCE5C7;
+        }
+
+        .password-container {
+            margin-top: -5px;
+        }
+
+        h3 {
+            font-weight: bolder;
+            text-transform: uppercase;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        .forgot-password {
+            display: block;
+            text-align: right;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .btn {
+            width: 105%;
+            padding: 12px;
+            background: #8B5E3C;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .signup-text {
+            margin-top: 15px;
+        }
+
+        .signup-link {
+            font-weight: bold;
+            color: #8B5E3C;
+            text-decoration: none;
+        }
+
+        .image-box {
+            width: 50%;
+        }
+
+        .image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px 15px 15px 15px;
+
+        }
+
+        .second {
+            margin-top: -15px;
+        }
+
+        .font-weight-lighter {
+            font-weight: lighter !important;
+        }
+
+        .font-weight-bolder {
+            font-weight: bolder !important;
+        }
+
+        .text-primary {
+            color: #f78d00 !important;
+        }
+
+        .text-dark {
+            color: #184a57 !important;
+        }
+
+        a.text-dark:hover,
+        a.text-dark:focus {
+            color: black !important;
+        }
+
+        h1 {
+            margin-top: -10px;
+        }
+
+        .forgot-password {
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            color: #fff;
+            background-color: #8B5E3C;
+            border-color: #f78d00;
+        }
+
+        .btn-primary:hover {
+            color: #fff;
+            background-color: #da7e05;
+            border-color: #af6402;
+        }
+        .notice{
+            margin: 0;
+            color: green;
+            font-weight: bolder;
+        }
+    </style>
+</head>
+<script>
+    const token = localStorage.getItem("jwt_token");
+    if (token) {
+        // alert('You already log in!')        
+        window.location.href = "index.html"; 
+    }
+</script>
+
+<body>
+
+    <div class="container">
+
+        <div class="login-box">
+            <a href="index.html" style="text-decoration: none;">
+                <h1 class="m-0 text-primary">Q<span class="text-dark">NITY</span></h1>
+            </a>
+            <h3>Log in to Explore </h3>
+            <h3 class="second">Your Next Great Adventure!</h3>
+            <form id="loginForm">
+                <input id="email" name="email" type="email" placeholder="Email" class="input-field" required>
+                <div class="password-container">
+                    <input id="password" name="password" type="password" placeholder="Password" class="input-field" required>
+                    <span class="toggle-password"></span>
+                </div>
+                <a href="#" class="forgot-password">Forgot Password?</a>
+                <p class="notice"></p>
+                <button type="submit" class="btn font-weight-bolder btn-primary">Log in</button>
+            </form>
+            
+            <p class="signup-text font-weight-lighter">Don't have an account? <a href="signup.html"
+                    class="signup-link">Sign up now!!</a></p>
+        </div>
+        <div class="image-box">
+            <img src=" img/Intro-Binh-Dinh-Vietnam.jpg" alt="Adventure Image">
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            if (password.length < 6) {
+                alert('Password too short!');
+                return;
+            }
+
+            try {
+                const res = await fetch('http://localhost:8080/QNITY_BE/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email,
+                        password
+                    })
+                });
+
+                if (!res.ok) {
+                    alert('Login Failed');
+                    return;
+                }
+                const data = await res.json();
+                console.log("Server response:", data);
+                console.log("Token from response:", data.data.jwt_token);
+                localStorage.setItem('jwt_token', data.data.jwt_token); // Lưu token                
+                if (data.message == 'Login failed') {
+                    alert('Login Failed');
+                    return;
+                }
+                document.querySelectorAll("notice").textContent = "Login Success";
+                window.location.href = "/index.html";
+
+
+
+            } catch (err) {
+                alert('Wrong account or server error');
+                console.error(err);
+            }
+        });
+    </script>
+
+</body>
+
+</html>
